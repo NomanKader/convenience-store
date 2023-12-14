@@ -17,20 +17,47 @@ import theme from "./theme";
 import CopyrightComponent from "./components/Copyright/CopyrightComponent";
 import { useRouter } from "next/navigation";
 
-
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function LoginPage() {
   const router=useRouter();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      phoneNumber: data.get("phoneNumber"),
-      password: data.get("password"),
-    });
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     userName: data.get("userName"),
+  //     password: data.get("password"),
+  //   });
+  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const username = data.get("userName");
+    const password = data.get("password");
+    const postData = {
+      username: username,
+      password: password,
+    };
+  
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+  
+    try {
+    //  await QueryComponent();
+     const response=await fetch('/api/auth/login',{
+      method:'POST',
+      body:JSON.stringify(post),
+      headers:{
+        'Content-Type':'application/json'
+      }
+     })
+     const data=await response.json();
+     console.log("Data",data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -76,12 +103,12 @@ export default function LoginPage() {
                 margin="normal"
                 required
                 fullWidth
-                id="phoneNumber"
-                label="Phone Number"
-                name="phoneNumber"
-                autoComplete="phoneNumber"
+                id="userName"
+                label="User Name"
+                name="userName"
+                autoComplete="userName"
                 autoFocus
-                type="number"
+                type="text"
               />
               <TextField
                 margin="normal"
@@ -103,7 +130,7 @@ export default function LoginPage() {
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={()=>router.push('/admin/dashboard')}
+                  
                 >
                   Sign In
                 </Button>

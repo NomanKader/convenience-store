@@ -1,5 +1,5 @@
 "use client";
-import * as React from "react";
+import  React,{useEffect, useState} from "react";
 import { styled, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -76,8 +76,20 @@ const Drawer = styled(MuiDrawer, {
 
 // TODO remove, this demo shouldn't need to reset the theme.
 export default function DashboardPage() {
+  const [data,setData]=useState([]);
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  useEffect(() => {
+    // Fetch data from the serverless function
+    const getUsers=async()=>{
+      await fetch('/api/user?username=hnin&password=123123')
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error('Error fetching data:', error));
+    }
+      getUsers();
+  }, []);
+  
   const toggleDrawer = () => {
     setOpen(!open);
   };
