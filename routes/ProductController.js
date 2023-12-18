@@ -132,5 +132,65 @@ router.delete('/:productId', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
+//Get route to get the lowest quantity from product table
+router.get('/lowest-quantity', async (req, res) => {
+  try {
+    // Create a new connection pool
+    const connectionPool = mysql.createPool(dbConfig);
+
+    // Acquire a connection from the pool
+    const connection = await connectionPool.getConnection();
+
+    try {
+      // Retrieve the product with the lowest quantity from the database
+      const [lowestQuantityProduct] = await connection.query(
+        'SELECT product_id, product_name, product_quantity FROM product ORDER BY product_quantity ASC LIMIT 1'
+      );
+
+      // Respond with the product with the lowest quantity
+      res.json({ success: true, lowestQuantityProduct: lowestQuantityProduct[0] });
+    } finally {
+      // Release the connection back to the pool
+      connection.release();
+    }
+  } catch (error) {
+    console.error('Error retrieving lowest quantity product:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
+// GET route to retrieve available quantity by product name
+router.get('/quantity/:productName', async (req, res) => {
+  const productName = req.params.productName;
+
+  try {
+    // Create a new connection pool
+    const connectionPool = mysql.createPool(dbConfig);
+
+    // Acquire a connection from the pool
+    const connection = await connectionPool.getConnection();
+
+    try {
+      // Retrieve the available quantity for the specified product name
+      const [product] = await connection.query(
+        'SELECT product_quantity FROM product WHERE product_name = ?',
+        [productName]
+      );
+
+      // Check if the product with the specified name exists
+      if (product.length === 0) {
+        res.status(404).json({ success: false, message: 'Product not found' });
+      } else {
+        // Respond with the available quantity for the product
+        res.json({ success: true, availableQuantity: product[0].product_quantity });
+      }
+    } finally {
+      // Release the connection back to the pool
+      connection.release();
+    }
+  } catch (error) {
+    console.error('Error retrieving available quantity:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
 
 module.exports = router;

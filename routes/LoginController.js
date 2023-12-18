@@ -11,7 +11,7 @@ const getUsersFromDatabase = async (username, password) => {
   const connection = await mysql.createConnection(dbConfig);
 
   try {
-    const [rows] = await connection.execute('SELECT User_ID,User_Name,User_Role FROM users WHERE User_Name Like ? AND Password Like ?', [username, password]);
+    const [rows] = await connection.execute('SELECT User_ID,User_Name,User_Role FROM user WHERE User_Name Like ? AND Password Like ?', [username, password]);
     return rows;
   } finally {
     await connection.end();
