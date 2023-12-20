@@ -69,7 +69,7 @@ router.post("/", async (req, res) => {
       // Insert the new sale into the database
       const [result] = await connection.query(
         "INSERT INTO sale (user_id, product_id, quantity, total_price,create_date) VALUES (?, ?, ?, ?,?)",
-        [user_id, product_id, quantity, totalPrice, create_date]
+        [user_id, product_id, quantity, totalPrice,create_date]
       );
 
       // Update the product quantity
