@@ -37,6 +37,12 @@ export const mainListItems = (history) => (
           </ListItemIcon>
           <ListItemText primary="Product" />
         </ListItemButton>
+        <ListItemButton onClick={() => history.push("/manager/report")}>
+          <ListItemIcon>
+            <BarChartIcon />
+          </ListItemIcon>
+          <ListItemText primary="Report" />
+        </ListItemButton>
       </>
     ) : (
       <ListItemButton onClick={() => history.push("/cashier/sale")}>

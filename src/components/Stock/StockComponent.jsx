@@ -31,7 +31,7 @@ const StockComponent = () => {
   const [editQuantity, setEditQuantity] = useState("");
   const [editCategoryId, setEditCategoryId] = useState("");
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [lowestQuantityProduct, setLowestQuantityProduct] = useState(null);
+  // const [lowestQuantityProduct, setLowestQuantityProduct] = useState(null);
 
   useEffect(() => {
     //getting categories list
@@ -52,14 +52,14 @@ const StockComponent = () => {
         console.error("Error fetching products:", error);
       });
 
-      axios
-      .get("http://localhost:5000/api/product/lowest-quantity")
-      .then((response) => {
-        setLowestQuantityProduct(response.data.lowestQuantityProduct);
-      })
-      .catch((error) => {
-        console.error("Error fetching lowest-quantity product:", error);
-      });
+      // axios
+      // .get("http://localhost:5000/api/product/lowest-quantity")
+      // .then((response) => {
+      //   setLowestQuantityProduct(response.data.lowestQuantityProduct);
+      // })
+      // .catch((error) => {
+      //   console.error("Error fetching lowest-quantity product:", error);
+      // });
   }, []); // Empty dependency array ensures the effect runs only once
       // Fetch the lowest-quantity product from the server
    
@@ -284,8 +284,8 @@ const StockComponent = () => {
         Add Product
       </Button>
         </Grid>
-        <Grid item xs={12} lg={6} >
-        {/* Lowest-Quantity Product Card */}
+        {/* <Grid item xs={12} lg={6} >
+        Lowest-Quantity Product Card
       {lowestQuantityProduct && (
         <Card style={{ marginTop: "16px",marginLeft:0,width:'50%',alignContent:'flex-start'}}>
           <CardContent>
@@ -294,7 +294,7 @@ const StockComponent = () => {
           </CardContent>
         </Card>
       )}
-        </Grid> 
+        </Grid>  */}
       </Grid>
       
       <Typography variant="h6" gutterBottom sx={{ mt: 2, mb: 2 }}>

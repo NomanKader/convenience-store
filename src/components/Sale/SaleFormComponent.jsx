@@ -11,9 +11,11 @@ import {
 import Autocomplete from "@mui/material/Autocomplete";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
+import './SaleStyle.css';
 import { ToastContainer, toast } from "react-toastify";
 import BackDropComponent from "../Loading/BackDropComponent";
 import LogoIcon from '../../assets/logo.png';
+import moment from "moment";
 const SaleFormComponent = () => {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState("");
@@ -86,7 +88,7 @@ const SaleFormComponent = () => {
       });
   };
   const handleAddSale = async () => {
-    const currentDate = new Date().toISOString();
+    const currentDate = moment().format('YYYY-MM-DD');
     // Check if both product and quantity are selected
     if (!product || !quantity) {
       toast.warn("Please select a product and enter a quantity");
@@ -177,21 +179,21 @@ const SaleFormComponent = () => {
       name: "total_price",
       label: "Total Price",
     },
-    {
-      name: "delete",
-      label: "Delete",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => handleDelete(tableMeta.rowData[0])}
-          >
-            Delete
-          </Button>
-        ),
-      },
-    },
+    // {
+    //   name: "delete",
+    //   label: "Delete",
+    //   options: {
+    //     customBodyRender: (value, tableMeta, updateValue) => (
+    //       <Button
+    //         variant="outlined"
+    //         color="secondary"
+    //         onClick={() => handleDelete(tableMeta.rowData[0])}
+    //       >
+    //         Delete
+    //       </Button>
+    //     ),
+    //   },
+    // },
   ];
 
   const options = {
